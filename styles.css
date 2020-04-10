@@ -5,7 +5,10 @@ body {
     align-items: center;
 }
 
-canvas {
+#canvas {
     margin-top: 30px;
-    border: 5px solid black;
+    border: 10px solid rgba(0, 0, 0, 0.37);
+    background-image: url(/Img/stonewallbg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
