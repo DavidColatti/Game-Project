@@ -1,0 +1,11 @@
+body {
+    display: flex;
+    justify-content: center;
+    background-image: url(/Img/BG.jpg);
+    align-items: center;
+}
+
+canvas {
+    margin-top: 30px;
+    border: 5px solid black;
+}
