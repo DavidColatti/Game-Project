@@ -5,6 +5,32 @@ canvas.width = innerWidth - 100;
 canvas.height = 600;
 let animateId;
 
+// POTION (HEALING)
+let potionImage = new Image();
+potionImage.src = './Sprites/Potion.png';
+
+let potions = [];
+setInterval(function() {
+	let potionObj = {
+		x: Math.random()*canvas.width,
+		y: -1,
+		w: 50,
+		h: 50,
+		health:25
+	}
+	if (potions.length < 10) {
+		potions.push(potionObj);
+	}
+}, 8000)
+
+
+function drawPotion() {
+	potions.forEach((potion) => {
+		ctx.drawImage(potionImage, potion.x, potion.y++, potion.w, potion.h);
+	});
+}
+
+
 // KNIGHT
 let knightImage = new Image();
 knightImage.src = './Sprites/Knight.png';
@@ -71,6 +97,7 @@ function animate() {
 
 	drawKnight();
 	drawGoblin();
+	drawPotion();
 }
 
 window.requestAnimationFrame(animate);
