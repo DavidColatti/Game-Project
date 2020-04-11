@@ -1,8 +1,11 @@
 // CANVAS
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
-canvas.width = innerWidth - 100;
+canvas.width = 800;
 canvas.height = 600;
+canvas.style.backgroundImage = 'url(./Img/stonewallbg.jpg)'
+canvas.style.backgroundRepeat = 'no-repeat'
+canvas.style.backgroundSize = 'contain';
 let animateId;
 
 // POTION (HEALING)
@@ -12,7 +15,7 @@ potionImage.src = './Sprites/Potion.png';
 let potions = [];
 setInterval(function() {
 	let potionObj = {
-		x: Math.random()*canvas.width,
+		x: Math.random()*700,
 		y: -1,
 		w: 50,
 		h: 50,
@@ -25,9 +28,20 @@ setInterval(function() {
 
 
 function drawPotion() {
-	potions.forEach((potion) => {
+	potions.forEach((potion, index) => {
 		ctx.drawImage(potionImage, potion.x, potion.y++, potion.w, potion.h);
+		detectPotionCollision(potion)
 	});
+}
+
+//COLLISION ON POTION
+function detectPotionCollision(pot) { //detect collision between potion and knight
+	if (pot.x < knightObj.x + knightObj.w &&
+		pot.x + pot.w > knightObj.x &&
+		pot.y < knightObj.y + knightObj.h &&
+		pot.y + pot.h > knightObj.y) {
+		  console.log('POTION!')
+	  }
 }
 
 
@@ -38,8 +52,8 @@ knightImage.src = './Sprites/Knight.png';
 let knightObj = {
 	x: canvas.width / 2,
 	y: canvas.height - 150,
-	w: 94.5,
-	h: 95.5,
+	w: 64.5,
+	h: 65.5,
 	health: 100,
 	str: 25
 };
@@ -50,16 +64,16 @@ function drawKnight() {
 
 // MOVEMENT KEYS
 document.onkeydown = function(e) {
-    if(e.key === 'ArrowUp' && knightObj.y > 410) {
+    if(e.key === 'ArrowUp' && knightObj.y > 360) {
         knightObj.y -= 15;
     }
     if(e.key === 'ArrowLeft' && knightObj.x > 0) {
         knightObj.x -= 15;
     }
-    if(e.key === 'ArrowDown' && knightObj.y < 500) {
+    if(e.key === 'ArrowDown' && knightObj.y < 520) {
         knightObj.y += 15;
     }
-    if(e.key === 'ArrowRight' && knightObj.x < 870) {
+    if(e.key === 'ArrowRight' && knightObj.x < 700) {
         knightObj.x += 15;
     }
 }
@@ -72,9 +86,9 @@ let goblins = [];
 setInterval(function() {
 	let goblinObj = {
 		x: -1,
-		y: (Math.random()*100) + 400,
-		w: 90.5,
-		h: 91.5,
+		y: (Math.random()*110) + 440,
+		w: 50.5,
+		h: 51.5,
 		health: 50,
 		str: 5
 	};
@@ -84,9 +98,20 @@ setInterval(function() {
 }, 3000);
 
 function drawGoblin() {
-	goblins.forEach((goblin) => {
+	goblins.forEach((goblin, index) => {
 		ctx.drawImage(goblinImage, 10, 127.4, 63, 63.7, goblin.x++, goblin.y, goblin.w, goblin.h);
+		detectGoblinCollision(goblin);
 	});
+}
+
+//COLLISION ON GOBLIN
+function detectGoblinCollision(gob) { //detect collision between goblins and knight
+	if (gob.x < knightObj.x + knightObj.w &&
+		gob.x + gob.w > knightObj.x &&
+		gob.y < knightObj.y + knightObj.h &&
+		gob.y + gob.h > knightObj.y) {
+		  console.log('GOBLIN!')
+	  }
 }
 
 
@@ -96,7 +121,7 @@ function animate() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
 
 	drawKnight();
-	drawGoblin();
+	// drawGoblin();
 	drawPotion();
 }
 
