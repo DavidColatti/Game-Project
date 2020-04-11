@@ -8,6 +8,7 @@ canvas.style.backgroundRepeat = 'no-repeat'
 canvas.style.backgroundSize = 'contain';
 let animateId;
 
+
 // POTION (HEALING)
 let potionImage = new Image();
 potionImage.src = './Sprites/Potion.png';
@@ -97,7 +98,7 @@ setInterval(function() {
 	if (goblins.length < 10) {
 		goblins.push(goblinObj);
 	}
-}, 3000);
+}, 4000);
 
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
@@ -124,9 +125,10 @@ function animate() {
 	animateId = window.requestAnimationFrame(animate);
 	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
 
+	
 	drawKnight();
 	drawGoblin();
-	// drawPotion();
+	drawPotion();
 }
 
 window.requestAnimationFrame(animate);
