@@ -30,17 +30,19 @@ setInterval(function() {
 function drawPotion() {
 	potions.forEach((potion, index) => {
 		ctx.drawImage(potionImage, potion.x, potion.y++, potion.w, potion.h);
-		detectPotionCollision(potion)
+		detectPotionCollision(potion, index)
 	});
 }
 
 //COLLISION ON POTION
-function detectPotionCollision(pot) { //detect collision between potion and knight
+function detectPotionCollision(pot, index) { //detect collision between potion and knight
 	if (pot.x < knightObj.x + knightObj.w &&
 		pot.x + pot.w > knightObj.x &&
 		pot.y < knightObj.y + knightObj.h &&
 		pot.y + pot.h > knightObj.y) {
 		  console.log('POTION!')
+		  knightObj.health += pot.health
+		  potions.splice(index, 1)
 	  }
 }
 
@@ -90,7 +92,7 @@ setInterval(function() {
 		w: 50.5,
 		h: 51.5,
 		health: 50,
-		str: 5
+		str: 10
 	};
 	if (goblins.length < 10) {
 		goblins.push(goblinObj);
@@ -100,17 +102,19 @@ setInterval(function() {
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
 		ctx.drawImage(goblinImage, 10, 127.4, 63, 63.7, goblin.x++, goblin.y, goblin.w, goblin.h);
-		detectGoblinCollision(goblin);
+		detectGoblinCollision(goblin, index);
 	});
 }
 
 //COLLISION ON GOBLIN
-function detectGoblinCollision(gob) { //detect collision between goblins and knight
+function detectGoblinCollision(gob, index) { //detect collision between goblins and knight
 	if (gob.x < knightObj.x + knightObj.w &&
 		gob.x + gob.w > knightObj.x &&
 		gob.y < knightObj.y + knightObj.h &&
 		gob.y + gob.h > knightObj.y) {
 		  console.log('GOBLIN!')
+		  knightObj.health -= gob.str
+		  goblins.splice(index, 1)
 	  }
 }
 
@@ -121,8 +125,8 @@ function animate() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
 
 	drawKnight();
-	// drawGoblin();
-	drawPotion();
+	drawGoblin();
+	// drawPotion();
 }
 
 window.requestAnimationFrame(animate);
