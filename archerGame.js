@@ -7,8 +7,8 @@ canvas.style.backgroundImage = 'url(./Img/stonewallbg.jpg)';
 canvas.style.backgroundRepeat = 'no-repeat';
 canvas.style.backgroundSize = 'contain';
 let animateId;
-
 let castleHealth = 500;
+let archerHit;
 
 
 // POTION (HEALING)
@@ -119,7 +119,7 @@ function drawGoblin() {
 
 //COLLISION ON GOBLIN
 function detectGoblinCollision(gob, index) {
-	//detect collision between goblins and knight
+	//detect collision between goblins and archer
 	if (
 		gob.x < archerObj.x + archerObj.w &&
 		gob.x + gob.w > archerObj.x &&
@@ -141,6 +141,7 @@ function detectGoblinCollision(gob, index) {
         document.querySelector('.castle').innerText = `Castle Population : ${castleHealth}`
     }
 }
+
 
 // ARROW CREATION
 let arrows = [];
