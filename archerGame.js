@@ -8,6 +8,9 @@ canvas.style.backgroundRepeat = 'no-repeat';
 canvas.style.backgroundSize = 'contain';
 let animateId;
 
+let castleHealth = 500;
+
+
 // POTION (HEALING)
 let potionImage = new Image();
 potionImage.src = './Sprites/Potion.png';
@@ -43,7 +46,8 @@ function detectPotionCollision(pot, index) {
 		pot.y + pot.h > archerObj.y
 	) {
 		console.log('POTION!');
-		archerObj.health += pot.health;
+        archerObj.health += pot.health;
+        document.querySelector('.health').innerText = `Health : ${archerObj.health}`
 		potions.splice(index, 1);
 	}
 }
@@ -104,6 +108,7 @@ setInterval(function() {
 	}
 }, 4000);
 
+
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
 		ctx.drawImage(goblinImage, 10, 127.4, 63, 63.7, goblin.x++, goblin.y, goblin.w, goblin.h);
@@ -123,11 +128,18 @@ function detectGoblinCollision(gob, index) {
 	) {
 		console.log('GOBLIN HURT ME!');
         archerObj.health -= gob.str;
+        document.querySelector('.health').innerText = `Health : ${archerObj.health}`
         // if(archerObj.health <= 0) {
         //     console.log('GAME OVER YOU DIED!')
         //     window.cancelAnimationFrame(animateId)
         // }
-	}
+    }
+    if (gob.x > canvas.width) {
+        console.log('Goblin Hurt People!')
+        goblins.splice(index, 1)
+        castleHealth -= gob.str
+        document.querySelector('.castle').innerText = `Castle Population : ${castleHealth}`
+    }
 }
 
 // ARROW CREATION
@@ -138,6 +150,7 @@ function shoot() {
 		return;
 	} else {
 		archerObj.arrowAmount--;
+        document.querySelector('.arrows').innerText = `Arrows : ${archerObj.arrowAmount}`
 
 		let arrow = {
 			x: archerObj.x,
@@ -189,7 +202,8 @@ function detectArrowCollision(arrow, index) {
 		arrow.y + arrow.h > archerObj.y
 	) {
 		console.log('MORE ARROWS!');
-		archerObj.arrowAmount += arrow.amount;
+        archerObj.arrowAmount += arrow.amount;
+        document.querySelector('.arrows').innerText = `Arrows : ${archerObj.arrowAmount}`
 		fallingArrows.splice(index, 1);
 	}
 }
@@ -225,4 +239,7 @@ function animate() {
 	drawFallingArrows();
 }
 
-window.requestAnimationFrame(animate);
+canvas.onclick = (function() { // CLICK ON CANVAS WINDOW TO START
+    window.requestAnimationFrame(animate);
+})
+

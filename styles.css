@@ -1,12 +1,37 @@
 body {
+    margin: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     background-image: url(/Img/BG.jpg);
     align-items: center;
+    letter-spacing: 2px;
 }
 
 
 #canvas {
-    margin-top: 30px;
     border: 10px solid rgba(0, 0, 0, 0.37);
+}
+
+h1 {
+    font-size: 50px;
+    color: white;
+}
+
+h3 {
+    font-size: 20px;
+    color: white;
+}
+
+.navBar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
 }
