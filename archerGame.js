@@ -107,7 +107,8 @@ setInterval(function() {
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
 		ctx.drawImage(goblinImage, 10, 127.4, 63, 63.7, goblin.x++, goblin.y, goblin.w, goblin.h);
-		detectGoblinCollision(goblin, index);
+		detectGoblinCollision(goblin, index); //collision with archer
+		detectArrowGoblinCollision(goblin, index); // collision with arrow
 	});
 }
 
@@ -120,8 +121,12 @@ function detectGoblinCollision(gob, index) {
 		gob.y < archerObj.y + archerObj.h &&
 		gob.y + gob.h > archerObj.y
 	) {
-		console.log('GOBLIN!');
-		archerObj.health -= gob.str;
+		console.log('GOBLIN HURT ME!');
+        archerObj.health -= gob.str;
+        // if(archerObj.health <= 0) {
+        //     console.log('GAME OVER YOU DIED!')
+        //     window.cancelAnimationFrame(animateId)
+        // }
 	}
 }
 
@@ -175,17 +180,37 @@ function drawFallingArrows() {
 }
 
 //COLLISION ON ARROW W/ ARCHER
-function detectArrowCollision(arrow, index) { //detect collision between arrow and archer
+function detectArrowCollision(arrow, index) {
+	//detect collision between arrow and archer
 	if (
 		arrow.x < archerObj.x + archerObj.w &&
 		arrow.x + arrow.w > archerObj.x &&
 		arrow.y < archerObj.y + archerObj.h &&
 		arrow.y + arrow.h > archerObj.y
 	) {
-        console.log('MORE ARROWS!');
-        archerObj.arrowAmount += arrow.amount
+		console.log('MORE ARROWS!');
+		archerObj.arrowAmount += arrow.amount;
 		fallingArrows.splice(index, 1);
 	}
+}
+
+//COLLISION ON ARROW AND GOBLIN
+function detectArrowGoblinCollision(goblin, index) {
+	arrows.forEach((arrow, index) => {
+		if (
+			goblin.x < arrow.x + arrow.w &&
+			goblin.x + goblin.w > arrow.x &&
+			goblin.y < arrow.y + arrow.h &&
+			goblin.y + goblin.h > arrow.y
+		) {
+			console.log('arrow hit goblin');
+			goblin.health -= archerObj.str;
+			arrows.splice(index, 1);
+			if (goblin.health <= 0) {
+				goblins.splice(index, 1);
+			}
+		}
+	});
 }
 
 // ANIMATE FUNCTION
