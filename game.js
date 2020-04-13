@@ -3,14 +3,18 @@ const ctx = canvas.getContext('2d');
 const startBtn = document.querySelector('.startBtn');
 const resetBtn = document.querySelector('.resetBtn');
 const gameLevel = document.querySelector('#Levels');
+const rightSide = document.querySelector('.rightSection');
 canvas.style.display = 'none';
 resetBtn.style.display = 'none';
+rightSide.style.display = 'none';
 let currentGameLevel;
 
-startBtn.onclick = function() {
+function theGame() {
 	canvas.style.display = 'inline';
 	startBtn.style.display = 'none';
 	gameLevel.style.display = 'none';
+	rightSide.style.display = 'inline';
+	resetBtn.style.display = 'none';
 	currentGameLevel = gameLevel.value;
 
 	// CANVAS STRUCTURE
@@ -182,9 +186,13 @@ startBtn.onclick = function() {
 				document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 				gob.hitTimes--;
 				if (archerObj.health <= 0) {
+					archerObj.health = 0;
+					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 					console.log('GAME OVER YOU DIED!');
-					console.log(gob.y + gob.h, archerObj.y);
-					// window.cancelAnimationFrame(animateId);
+					window.cancelAnimationFrame(animateId);
+					canvas.style.display = 'none';
+					gameLevel.style.display = 'inline';
+					resetBtn.style.display = 'inline';
 				}
 			}
 		}
@@ -308,3 +316,6 @@ startBtn.onclick = function() {
 
 	window.requestAnimationFrame(animate);
 };
+
+startBtn.addEventListener('click', theGame)
+resetBtn.addEventListener('click', theGame);
