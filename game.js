@@ -21,7 +21,7 @@ setInterval(function() {
 		y: -1,
 		w: 18,
 		h: 18,
-		health: 25
+		health: 20
 	};
 	if (potions.length < 10) {
 		potions.push(potionObj);
@@ -69,13 +69,15 @@ let archerObj = {
 	y: canvas.height - 150,
 	w: 64.5,
 	h: 65.5,
-	health: 10,
+	health: 100,
 	str: 25,
-	arrowAmount: 50
+	arrowAmount: 30,
+	spriteX: 0,
+	spriteY: 640
 };
 
 function drawArcher() {
-	ctx.drawImage(archerImage, 10, 127.4, 63, 63.7, archerObj.x, archerObj.y, archerObj.w, archerObj.h);
+	ctx.drawImage(archerImage, archerObj.spriteX, archerObj.spriteY, 64, 64, archerObj.x, archerObj.y, archerObj.w, archerObj.h);
 }
 
 // MOVEMENT KEYS
@@ -109,7 +111,7 @@ setInterval(function() {
 		w: 50.5,
 		h: 51.5,
 		health: 50,
-		str: 10,
+		str: 15,
 		hitTimes: 1,
 		spriteX: 0,
 		spriteY: 704
@@ -117,14 +119,14 @@ setInterval(function() {
 	if (goblins.length < 10) {
 		goblins.push(goblinObj);
 	}
-}, 4000);
+}, 3000);
 
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
 		if(goblin.spriteX >= 512) {
 			goblin.spriteX = 0;
 		}
-		ctx.drawImage(goblinImage, goblin.spriteX+=64, goblin.spriteY, 64, 64, goblin.x++, goblin.y, goblin.w, goblin.h);
+		ctx.drawImage(goblinImage, goblin.spriteX+=64, goblin.spriteY, 64, 64, goblin.x+=2, goblin.y, goblin.w, goblin.h);
 		detectGoblinCollision(goblin, index); //collision with archer
 		detectArrowGoblinCollision(goblin, index); // collision with arrow
 	});
@@ -146,7 +148,7 @@ function detectGoblinCollision(gob, index) {
 		gob.hitTimes--
 		if(archerObj.health <= 0) {
 			console.log('GAME OVER YOU DIED!')
-			console.log(gob.x + gob.w, gob.y, archerObj.x, archerObj.y)
+			console.log(gob.y + gob.h, archerObj.y)
 		    window.cancelAnimationFrame(animateId)
 		}
 	}
@@ -218,11 +220,11 @@ function detectArrowCollision(arrow, index) {
 		arrow.y < archerObj.y + archerObj.h &&
 		arrow.y + arrow.h > archerObj.y
 	) {
-		if (archerObj.arrowAmount === 50) {
+		if (archerObj.arrowAmount === 30) {
 			console.log('I CANT HOLD MORE ARROWS!');
-		} else if (archerObj.arrowAmount > 35) {
+		} else if (archerObj.arrowAmount > 15) {
 			console.log('I HAVE A FULL BAG OF ARROWS NOW');
-			archerObj.arrowAmount = 50;
+			archerObj.arrowAmount = 30;
 			document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`;
 			fallingArrows.splice(index, 1);
 		} else {
@@ -256,8 +258,8 @@ function detectArrowGoblinCollision(goblin, i) {
 }
 
 // ANIMATE FUNCTION
-function animate() {
-	animateId = window.requestAnimationFrame(animate);
+function animateLvl1() {
+	animateId = window.requestAnimationFrame(animateLvl1);
 	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
 
 	drawArcher();
@@ -269,5 +271,5 @@ function animate() {
 
 canvas.onclick = function() {
 	// CLICK ON CANVAS WINDOW TO START
-	window.requestAnimationFrame(animate);
+	window.requestAnimationFrame(animateLvl1);
 };
