@@ -69,7 +69,7 @@ let archerObj = {
 	y: canvas.height - 150,
 	w: 64.5,
 	h: 65.5,
-	health: 100,
+	health: 10,
 	str: 25,
 	arrowAmount: 50
 };
@@ -109,7 +109,10 @@ setInterval(function() {
 		w: 50.5,
 		h: 51.5,
 		health: 50,
-		str: 10
+		str: 10,
+		hitTimes: 1,
+		spriteX: 0,
+		spriteY: 704
 	};
 	if (goblins.length < 10) {
 		goblins.push(goblinObj);
@@ -118,7 +121,10 @@ setInterval(function() {
 
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
-		ctx.drawImage(goblinImage, 10, 127.4, 63, 63.7, goblin.x++, goblin.y, goblin.w, goblin.h);
+		if(goblin.spriteX >= 512) {
+			goblin.spriteX = 0;
+		}
+		ctx.drawImage(goblinImage, goblin.spriteX+=64, goblin.spriteY, 64, 64, goblin.x++, goblin.y, goblin.w, goblin.h);
 		detectGoblinCollision(goblin, index); //collision with archer
 		detectArrowGoblinCollision(goblin, index); // collision with arrow
 	});
@@ -129,17 +135,21 @@ function detectGoblinCollision(gob, index) {
 	//detect collision between goblins and archer
 	if (
 		gob.x < archerObj.x + archerObj.w &&
-		gob.x + gob.w > archerObj.x &&
+		gob.x + gob.w - 15 > archerObj.x + 15 &&
 		gob.y < archerObj.y + archerObj.h &&
 		gob.y + gob.h > archerObj.y
 	) {
+		if(gob.hitTimes > 0) {
 		console.log('GOBLIN HURT ME!');
 		archerObj.health -= gob.str;
 		document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
-		// if(archerObj.health <= 0) {
-		//     console.log('GAME OVER YOU DIED!')
-		//     window.cancelAnimationFrame(animateId)
-		// }
+		gob.hitTimes--
+		if(archerObj.health <= 0) {
+			console.log('GAME OVER YOU DIED!')
+			console.log(gob.x + gob.w, gob.y, archerObj.x, archerObj.y)
+		    window.cancelAnimationFrame(animateId)
+		}
+	}
 	}
 	if (gob.x > canvas.width) {
 		console.log('Goblin Hurt People!');
@@ -225,7 +235,7 @@ function detectArrowCollision(arrow, index) {
 }
 
 //COLLISION ON ARROW AND GOBLIN
-function detectArrowGoblinCollision(goblin, index) {
+function detectArrowGoblinCollision(goblin, i) {
 	arrows.forEach((arrow, index) => {
 		if (
 			goblin.x < arrow.x + arrow.w &&
@@ -235,9 +245,11 @@ function detectArrowGoblinCollision(goblin, index) {
 		) {
 			console.log('arrow hit goblin');
 			goblin.health -= archerObj.str;
+			console.log(goblin.health)
+			console.log()
 			arrows.splice(index, 1);
 			if (goblin.health <= 0) {
-				goblins.splice(index, 1);
+				goblins.splice(i, 1);
 			}
 		}
 	});
