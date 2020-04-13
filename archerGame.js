@@ -10,7 +10,6 @@ let animateId;
 let castleHealth = 500;
 let archerHit;
 
-
 // POTION (HEALING)
 let potionImage = new Image();
 potionImage.src = './Sprites/Potion.png';
@@ -45,10 +44,19 @@ function detectPotionCollision(pot, index) {
 		pot.y < archerObj.y + archerObj.h &&
 		pot.y + pot.h > archerObj.y
 	) {
-		console.log('POTION!');
-        archerObj.health += pot.health;
-        document.querySelector('.healthAmount').innerText = `${archerObj.health}`
-		potions.splice(index, 1);
+		if (archerObj.health === 100) {
+			console.log('I HAVE FULL HEALTH');
+		} else if (archerObj.health > 75) {
+			console.log('POTION GAVE ME FULL HEALTH!');
+			archerObj.health = 100;
+			document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+			potions.splice(index, 1);
+		} else {
+			console.log('POTION HEALED ME A BIT!');
+			archerObj.health += pot.health;
+			document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+			potions.splice(index, 1);
+		}
 	}
 }
 
@@ -108,7 +116,6 @@ setInterval(function() {
 	}
 }, 4000);
 
-
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
 		ctx.drawImage(goblinImage, 10, 127.4, 63, 63.7, goblin.x++, goblin.y, goblin.w, goblin.h);
@@ -127,21 +134,20 @@ function detectGoblinCollision(gob, index) {
 		gob.y + gob.h > archerObj.y
 	) {
 		console.log('GOBLIN HURT ME!');
-        archerObj.health -= gob.str;
-        document.querySelector('.healthAmount').innerText = `${archerObj.health}`
-        // if(archerObj.health <= 0) {
-        //     console.log('GAME OVER YOU DIED!')
-        //     window.cancelAnimationFrame(animateId)
-        // }
-    }
-    if (gob.x > canvas.width) {
-        console.log('Goblin Hurt People!')
-        goblins.splice(index, 1)
-        castleHealth -= gob.str
-        document.querySelector('.castleAmount').innerText = `${castleHealth}`
-    }
+		archerObj.health -= gob.str;
+		document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+		// if(archerObj.health <= 0) {
+		//     console.log('GAME OVER YOU DIED!')
+		//     window.cancelAnimationFrame(animateId)
+		// }
+	}
+	if (gob.x > canvas.width) {
+		console.log('Goblin Hurt People!');
+		goblins.splice(index, 1);
+		castleHealth -= gob.str;
+		document.querySelector('.castleAmount').innerText = `${castleHealth}`;
+	}
 }
-
 
 // ARROW CREATION
 let arrows = [];
@@ -151,7 +157,7 @@ function shoot() {
 		return;
 	} else {
 		archerObj.arrowAmount--;
-        document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`
+		document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`;
 
 		let arrow = {
 			x: archerObj.x,
@@ -202,10 +208,19 @@ function detectArrowCollision(arrow, index) {
 		arrow.y < archerObj.y + archerObj.h &&
 		arrow.y + arrow.h > archerObj.y
 	) {
-		console.log('MORE ARROWS!');
-        archerObj.arrowAmount += arrow.amount;
-        document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`
-		fallingArrows.splice(index, 1);
+		if (archerObj.arrowAmount === 50) {
+			console.log('I CANT HOLD MORE ARROWS!');
+		} else if (archerObj.arrowAmount > 35) {
+			console.log('I HAVE A FULL BAG OF ARROWS NOW');
+			archerObj.arrowAmount = 50;
+			document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`;
+			fallingArrows.splice(index, 1);
+		} else {
+			console.log('MORE ARROWS!');
+			archerObj.arrowAmount += arrow.amount;
+			document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`;
+			fallingArrows.splice(index, 1);
+		}
 	}
 }
 
@@ -234,13 +249,13 @@ function animate() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
 
 	drawArcher();
-	drawGoblin();
-	drawPotion();
 	drawArrows();
 	drawFallingArrows();
+	drawPotion();
+	drawGoblin();
 }
 
-canvas.onclick = (function() { // CLICK ON CANVAS WINDOW TO START
-    window.requestAnimationFrame(animate);
-})
-
+canvas.onclick = function() {
+	// CLICK ON CANVAS WINDOW TO START
+	window.requestAnimationFrame(animate);
+};
