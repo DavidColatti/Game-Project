@@ -12,6 +12,7 @@ body {
     border: 3px solid rgba(103, 15, 15, 0.509);
 }
 
+
 h1 {
     text-align: center;
     font-size: 40px;
@@ -66,7 +67,7 @@ h3 {
 
 .midSection img {
     margin: 5px 0px;
-    width: 85%;
+    width: 700px;
     align-self: center;
 }
 
@@ -88,4 +89,16 @@ h3 {
     border: 3px solid rgba(103, 15, 15, 0.509);
     border-radius: 2rem;
     background-color: rgba(255, 255, 255, 0.192);
+}
+
+.StartBtn {
+    align-self: center;
+    border: 3px solid rgba(103, 15, 15, 0.509);
+    background-color: rgba(255, 255, 255, 0.192);
+    border-radius: 2rem;
+    color: white;
+    width: 400px;
+    height: 100px;
+    font-size: 40px;
+    text-shadow: 2px 2px black;
 }

@@ -1,3 +1,10 @@
+document.querySelector('#canvas').style.display = 'none'
+
+document.querySelector('.StartBtn').onclick = function() { // CLICK ON CANVAS WINDOW TO START
+
+document.querySelector('#canvas').style.display = 'inline'
+document.querySelector('.StartBtn').style.display = 'none'
+
 // CANVAS
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
@@ -8,7 +15,6 @@ canvas.style.backgroundRepeat = 'no-repeat';
 canvas.style.backgroundSize = 'contain';
 let animateId;
 let castleHealth = 200;
-
 
 // POTION (HEALING)
 let potionImage = new Image();
@@ -77,7 +83,17 @@ let archerObj = {
 };
 
 function drawArcher() {
-	ctx.drawImage(archerImage, archerObj.spriteX, archerObj.spriteY, 64, 64, archerObj.x, archerObj.y, archerObj.w, archerObj.h);
+	ctx.drawImage(
+		archerImage,
+		archerObj.spriteX,
+		archerObj.spriteY,
+		64,
+		64,
+		archerObj.x,
+		archerObj.y,
+		archerObj.w,
+		archerObj.h
+	);
 }
 
 // MOVEMENT KEYS
@@ -123,10 +139,20 @@ setInterval(function() {
 
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
-		if(goblin.spriteX >= 512) {
+		if (goblin.spriteX >= 512) {
 			goblin.spriteX = 0;
 		}
-		ctx.drawImage(goblinImage, goblin.spriteX+=64, goblin.spriteY, 64, 64, goblin.x+=2, goblin.y, goblin.w, goblin.h);
+		ctx.drawImage(
+			goblinImage,
+			(goblin.spriteX += 64),
+			goblin.spriteY,
+			64,
+			64,
+			(goblin.x += 2),
+			goblin.y,
+			goblin.w,
+			goblin.h
+		);
 		detectGoblinCollision(goblin, index); //collision with archer
 		detectArrowGoblinCollision(goblin, index); // collision with arrow
 	});
@@ -141,17 +167,17 @@ function detectGoblinCollision(gob, index) {
 		gob.y < archerObj.y + archerObj.h &&
 		gob.y + gob.h > archerObj.y
 	) {
-		if(gob.hitTimes > 0) {
-		console.log('GOBLIN HURT ME!');
-		archerObj.health -= gob.str;
-		document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
-		gob.hitTimes--
-		if(archerObj.health <= 0) {
-			console.log('GAME OVER YOU DIED!')
-			console.log(gob.y + gob.h, archerObj.y)
-		    window.cancelAnimationFrame(animateId)
+		if (gob.hitTimes > 0) {
+			console.log('GOBLIN HURT ME!');
+			archerObj.health -= gob.str;
+			document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+			gob.hitTimes--;
+			if (archerObj.health <= 0) {
+				console.log('GAME OVER YOU DIED!');
+				console.log(gob.y + gob.h, archerObj.y);
+				window.cancelAnimationFrame(animateId);
+			}
 		}
-	}
 	}
 	if (gob.x > canvas.width) {
 		console.log('Goblin Hurt People!');
@@ -247,8 +273,8 @@ function detectArrowGoblinCollision(goblin, i) {
 		) {
 			console.log('arrow hit goblin');
 			goblin.health -= archerObj.str;
-			console.log(goblin.health)
-			console.log()
+			console.log(goblin.health);
+			console.log();
 			arrows.splice(index, 1);
 			if (goblin.health <= 0) {
 				goblins.splice(i, 1);
@@ -256,20 +282,19 @@ function detectArrowGoblinCollision(goblin, i) {
 		}
 	});
 }
+// canvas.onclick = function() { // CLICK ON CANVAS WINDOW TO START
+	
+	// ANIMATE FUNCTION
+	function animateLvl1() {
+		animateId = window.requestAnimationFrame(animateLvl1);
+		ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
 
-// ANIMATE FUNCTION
-function animateLvl1() {
-	animateId = window.requestAnimationFrame(animateLvl1);
-	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
+		drawArcher();
+		drawArrows();
+		drawFallingArrows();
+		drawPotion();
+		drawGoblin();
+	}
 
-	drawArcher();
-	drawArrows();
-	drawFallingArrows();
-	drawPotion();
-	drawGoblin();
-}
-
-canvas.onclick = function() {
-	// CLICK ON CANVAS WINDOW TO START
 	window.requestAnimationFrame(animateLvl1);
 };
