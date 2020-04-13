@@ -7,8 +7,8 @@ canvas.style.backgroundImage = 'url(./Img/stonewallbg.jpg)';
 canvas.style.backgroundRepeat = 'no-repeat';
 canvas.style.backgroundSize = 'contain';
 let animateId;
-let castleHealth = 500;
-let archerHit;
+let castleHealth = 200;
+
 
 // POTION (HEALING)
 let potionImage = new Image();

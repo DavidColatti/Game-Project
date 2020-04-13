@@ -18,12 +18,6 @@ h1 {
     color: white;
 }
 
-h2 {
-    margin-bottom: 5px;
-    text-align: center;
-    font-size: 25px;
-    color: white;
-}
 
 h3 {
     margin-top: 2px;
@@ -38,6 +32,13 @@ h3 {
     flex-direction: column;
     justify-content: center;
     height: 100vh;
+    text-align: center;
+}
+
+
+.navBar p {
+    color:  white;
+    font-size: 20px;
 }
 
 .score {
@@ -45,4 +46,21 @@ h3 {
     flex-direction: column;
     justify-content: center;
     height: 100vh;
+    text-align: center;
+}
+
+.score h2 {
+    margin-bottom: 5px;
+    font-size: 25px;
+    color: white;
+}
+
+.midSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.midSection img {
+    width: 80%;
+    align-self: center;
 }
