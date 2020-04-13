@@ -93,6 +93,11 @@ function theGame() {
 	};
 
 	function drawArcher() {
+		ctx.fillStyle = 'red'
+			ctx.fillRect(archerObj.x + 5, archerObj.y, 50, 5)
+			ctx.fillStyle = 'green'
+			ctx.fillRect(archerObj.x + 5, archerObj.y, (archerObj.health/100) * 50, 5)
+
 		ctx.drawImage(
 			archerImage,
 			archerObj.spriteX,
@@ -155,6 +160,12 @@ function theGame() {
 			if (goblin.spriteX >= 512) {
 				goblin.spriteX = 0;
 			}
+
+			ctx.fillStyle = 'red'
+			ctx.fillRect(goblin.x, goblin.y, 50, 5)
+			ctx.fillStyle = 'green'
+			ctx.fillRect(goblin.x, goblin.y, (goblin.health/50) * 50, 5)
+
 			ctx.drawImage(
 				goblinImage,
 				(goblin.spriteX += 64),
