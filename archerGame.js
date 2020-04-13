@@ -47,7 +47,7 @@ function detectPotionCollision(pot, index) {
 	) {
 		console.log('POTION!');
         archerObj.health += pot.health;
-        document.querySelector('.health').innerText = `Health : ${archerObj.health}`
+        document.querySelector('.healthAmount').innerText = `${archerObj.health}`
 		potions.splice(index, 1);
 	}
 }
@@ -128,7 +128,7 @@ function detectGoblinCollision(gob, index) {
 	) {
 		console.log('GOBLIN HURT ME!');
         archerObj.health -= gob.str;
-        document.querySelector('.health').innerText = `Health : ${archerObj.health}`
+        document.querySelector('.healthAmount').innerText = `${archerObj.health}`
         // if(archerObj.health <= 0) {
         //     console.log('GAME OVER YOU DIED!')
         //     window.cancelAnimationFrame(animateId)
@@ -138,7 +138,7 @@ function detectGoblinCollision(gob, index) {
         console.log('Goblin Hurt People!')
         goblins.splice(index, 1)
         castleHealth -= gob.str
-        document.querySelector('.castle').innerText = `Castle Population : ${castleHealth}`
+        document.querySelector('.castleAmount').innerText = `${castleHealth}`
     }
 }
 
@@ -151,7 +151,7 @@ function shoot() {
 		return;
 	} else {
 		archerObj.arrowAmount--;
-        document.querySelector('.arrows').innerText = `Arrows : ${archerObj.arrowAmount}`
+        document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`
 
 		let arrow = {
 			x: archerObj.x,
@@ -204,7 +204,7 @@ function detectArrowCollision(arrow, index) {
 	) {
 		console.log('MORE ARROWS!');
         archerObj.arrowAmount += arrow.amount;
-        document.querySelector('.arrows').innerText = `Arrows : ${archerObj.arrowAmount}`
+        document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`
 		fallingArrows.splice(index, 1);
 	}
 }
