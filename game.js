@@ -114,7 +114,7 @@ function theGame() {
 			archerObj.h
 		);
 
-		// detectSpellArcherCollision(archerObj);
+		detectSpellArcherCollision(archerObj);
 	}
 
 	// MOVEMENT KEYS
@@ -530,13 +530,13 @@ function theGame() {
 	let spells = [];
 	function spellShoot(goblin) {
 		if (goblin.spellCount > 0) {
-			goblin.spellCount--
+			goblin.spellCount--;
 
 			let spell = {
 				x: goblin.x + goblin.w - 20,
 				y: goblin.y + (goblin.h / 2 + 10),
-				w: 10,
-				h: 10
+				w: 20,
+				h: 20
 			};
 			spells.push(spell);
 		}
@@ -556,7 +556,30 @@ function theGame() {
 	function drawSpells() {
 		ctx.fillStyle = 'red';
 		spells.forEach((spell) => {
-			ctx.drawImage(spellImage, (spell.x += 3), spell.y, 20, 20);
+			ctx.drawImage(spellImage, (spell.x += 3), spell.y, spell.w, spell.h);
+		});
+	}
+
+	// //COLLISION ON SPELL AND ARCHER
+	function detectSpellArcherCollision(archer) {
+		magicGoblins.forEach((goblin) => {
+			spells.forEach((spell, index) => {
+				if (
+					archer.x < spell.x + spell.w &&
+					archer.x + archer.w > spell.x &&
+					archer.y < spell.y + spell.h &&
+					archer.y + archer.h > spell.y
+				) {
+					console.log('Spell Hit Me!');
+					console.log(spells.length);
+					archer.health -= goblin.str;
+
+					spells.splice(index, 1);
+					if (archer.health <= 0) {
+						console.log('died');
+					}
+				}
+			});
 		});
 	}
 
