@@ -93,8 +93,13 @@ function theGame() {
 		str: 25,
 		arrowAmount: 50,
 		spriteX: 0,
-		spriteY: 640
+		spriteY: 640,
+		alive: true
 	};
+
+	if (archerObj.health <= 0) {
+		alive = false;
+	}
 
 	function drawArcher() {
 		ctx.fillStyle = 'red';
@@ -151,11 +156,16 @@ function theGame() {
 			str: 15,
 			hitTimes: 1,
 			spriteX: 0,
-			spriteY: 704
+			spriteY: 704,
+			alive: true
 		};
 
 		if (currentGameLevel === 'Medium' || currentGameLevel === 'Hard') {
 			goblinObj.str = 20;
+		}
+
+		if (goblinObj.health <= 0) {
+			alive = false;
 		}
 
 		goblins.push(goblinObj);
@@ -238,7 +248,8 @@ function theGame() {
 			hitTimes: 1,
 			spriteX: 0,
 			spriteY: 704,
-			healthBar: 400
+			healthBar: 400,
+			alive: true
 		};
 
 		if (currentGameLevel === 'Medium') {
@@ -249,6 +260,10 @@ function theGame() {
 			goldGoblinObj.str = 50;
 			goldGoblinObj.health = 600;
 			goldGoblinObj.healthBar = 600;
+		}
+
+		if (goldGoblinObj.health <= 0) {
+			alive = false;
 		}
 
 		goldGoblins.push(goldGoblinObj);
@@ -447,8 +462,13 @@ function theGame() {
 			spriteX: 0,
 			spriteY: 704,
 			healthBar: 50,
-			spellCount: 1
+			spellCount: 1,
+			alive: true
 		};
+
+		setInterval(function() {
+			spellShoot(magicGoblinObj);
+		}, 1800);
 
 		if (currentGameLevel === 'Medium') {
 			magicGoblinObj.str = 20;
@@ -460,6 +480,10 @@ function theGame() {
 			magicGoblinObj.health = 100;
 			magicGoblinObj.healthBar = 100;
 			magicGoblinObj.spellCount = 3;
+		}
+
+		if (magicGoblinObj.health <= 0) {
+			alive = false;
 		}
 
 		magicGoblins.push(magicGoblinObj);
@@ -542,13 +566,13 @@ function theGame() {
 		}
 	}
 
-	setInterval(function() {
-		if (magicGoblins.length !== 0) {
-			magicGoblins.forEach((goblin) => {
-				spellShoot(goblin);
-			});
-		}
-	}, 1800);
+	// setInterval(function() {
+	// 	if (magicGoblins.length !== 0) {
+	// 		magicGoblins.forEach((goblin) => {
+	// 			spellShoot(goblin);
+	// 		});
+	// 	}
+	// }, 1800);
 
 	let spellImage = new Image();
 	spellImage.src = './Sprites/Spell.png';
@@ -573,10 +597,10 @@ function theGame() {
 					console.log('Spell Hit Me!');
 					console.log(spells.length);
 					archer.health -= goblin.str;
-
+					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 					spells.splice(index, 1);
 					if (archer.health <= 0) {
-						console.log('died');
+						gameOver();
 					}
 				}
 			});
