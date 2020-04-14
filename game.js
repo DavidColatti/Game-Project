@@ -446,21 +446,24 @@ function theGame() {
 			str: 15,
 			spriteX: 0,
 			spriteY: 704,
-			healthBar: 50
+			healthBar: 50,
+			spellCount: 1
 		};
 
 		if (currentGameLevel === 'Medium') {
 			magicGoblinObj.str = 20;
 			magicGoblinObj.health = 75;
 			magicGoblinObj.healthBar = 75;
+			magicGoblinObj.spellCount = 2;
 		} else if (currentGameLevel === 'Hard') {
 			magicGoblinObj.str = 25;
 			magicGoblinObj.health = 100;
 			magicGoblinObj.healthBar = 100;
+			magicGoblinObj.spellCount = 3;
 		}
 
 		magicGoblins.push(magicGoblinObj);
-	}, 4000);
+	}, 5000);
 
 	function drawMagicGoblin() {
 		magicGoblins.forEach((goblin, index) => {
@@ -526,13 +529,17 @@ function theGame() {
 	// SPELL CREATION
 	let spells = [];
 	function spellShoot(goblin) {
-		let spell = {
-			x: goblin.x + goblin.w - 20,
-			y: goblin.y + (goblin.h / 2 + 10),
-			w: 10,
-			h: 10
-		};
-		spells.push(spell);
+		if (goblin.spellCount > 0) {
+			goblin.spellCount--
+
+			let spell = {
+				x: goblin.x + goblin.w - 20,
+				y: goblin.y + (goblin.h / 2 + 10),
+				w: 10,
+				h: 10
+			};
+			spells.push(spell);
+		}
 	}
 
 	setInterval(function() {
@@ -541,7 +548,7 @@ function theGame() {
 				spellShoot(goblin);
 			});
 		}
-	}, 2500);
+	}, 1800);
 
 	let spellImage = new Image();
 	spellImage.src = './Sprites/Spell.png';
