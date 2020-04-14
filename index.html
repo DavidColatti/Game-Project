@@ -16,7 +16,8 @@
             the citizens!</p>
         <p>Don't let the Orcs hit you,<br>
         they hurt! Shoot them down<br> before
-    they get past you and into<br> the castle.</p>
+        they get past you and into<br> the castle. Make sure<br>
+        to finish off the Orc General!</p>
         <p>Press the space bar to shoot<br>
         your arrows and navigate with<br>
         the arrow keys.</p>
@@ -27,6 +28,7 @@
 <div class='midSection'>
     <img src="/Img/LogoText1.png" alt="Raid of The Orcs">
     <canvas id='canvas'></canvas>
+    <div class='result'></div>
     <div class='menu'>
         <select id="Levels">
             <option value="Easy">Easy</option>
@@ -34,7 +36,7 @@
             <option value="Hard">Hard</option>
         </select>
         <button class='startBtn'>Start Game!</button>
-        <button class='resetBtn'>Play Again!</button>
+        <button class='resetBtn' onclick="window.location.href = 'index.html'">Return Home</button>
     </div>
 </div>
 <div class='rightSection'>

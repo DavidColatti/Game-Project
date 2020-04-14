@@ -4,9 +4,11 @@ const startBtn = document.querySelector('.startBtn');
 const resetBtn = document.querySelector('.resetBtn');
 const gameLevel = document.querySelector('#Levels');
 const rightSide = document.querySelector('.rightSection');
+const result = document.querySelector('.result');
 canvas.style.display = 'none';
 resetBtn.style.display = 'none';
 rightSide.style.display = 'none';
+let wonGame;
 let currentGameLevel;
 
 function theGame() {
@@ -15,6 +17,7 @@ function theGame() {
 	gameLevel.style.display = 'none';
 	rightSide.style.display = 'inline';
 	resetBtn.style.display = 'none';
+	result.style.display = 'none'
 	currentGameLevel = gameLevel.value;
 
 	// CANVAS STRUCTURE
@@ -93,10 +96,10 @@ function theGame() {
 	};
 
 	function drawArcher() {
-		ctx.fillStyle = 'red'
-			ctx.fillRect(archerObj.x + 5, archerObj.y, 50, 5)
-			ctx.fillStyle = 'green'
-			ctx.fillRect(archerObj.x + 5, archerObj.y, (archerObj.health/100) * 50, 5)
+		ctx.fillStyle = 'red';
+		ctx.fillRect(archerObj.x + 5, archerObj.y, 50, 5);
+		ctx.fillStyle = 'green';
+		ctx.fillRect(archerObj.x + 5, archerObj.y, archerObj.health / 100 * 50, 5);
 
 		ctx.drawImage(
 			archerImage,
@@ -147,12 +150,12 @@ function theGame() {
 			spriteX: 0,
 			spriteY: 704
 		};
-		
-		if(currentGameLevel === 'Medium' || currentGameLevel === 'Hard') {
+
+		if (currentGameLevel === 'Medium' || currentGameLevel === 'Hard') {
 			goblinObj.str = 20;
 		}
-		
-		goblins.push(goblinObj)
+
+		goblins.push(goblinObj);
 	}, 2000);
 
 	function drawGoblin() {
@@ -161,10 +164,10 @@ function theGame() {
 				goblin.spriteX = 0;
 			}
 
-			ctx.fillStyle = 'red'
-			ctx.fillRect(goblin.x, goblin.y, 50, 5)
-			ctx.fillStyle = 'green'
-			ctx.fillRect(goblin.x, goblin.y, (goblin.health/50) * 50, 5)
+			ctx.fillStyle = 'red';
+			ctx.fillRect(goblin.x, goblin.y, 50, 5);
+			ctx.fillStyle = 'green';
+			ctx.fillRect(goblin.x, goblin.y, goblin.health / 50 * 50, 5);
 
 			ctx.drawImage(
 				goblinImage,
@@ -199,11 +202,8 @@ function theGame() {
 				if (archerObj.health <= 0) {
 					archerObj.health = 0;
 					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
-					console.log('GAME OVER YOU DIED!');
-					window.cancelAnimationFrame(animateId);
-					canvas.style.display = 'none';
-					gameLevel.style.display = 'inline';
-					resetBtn.style.display = 'inline';
+					wonGame = 'false'
+					gameOver();
 				}
 			}
 		}
@@ -212,8 +212,13 @@ function theGame() {
 			goblins.splice(index, 1);
 			castleHealth -= gob.str;
 			document.querySelector('.castleAmount').innerText = `${castleHealth}`;
+			if(castleHealth <= 0) {
+				wonGame = 'false'
+				gameOver();
+			}
 		}
 	}
+
 
 	// ARROW CREATION
 	let arrows = [];
@@ -311,7 +316,29 @@ function theGame() {
 			}
 		});
 	}
-	// canvas.onclick = function() { // CLICK ON CANVAS WINDOW TO START
+
+	// GAME OVER FUNCTION
+	function gameOver() {
+		console.log('GAME IS OVER');
+		window.cancelAnimationFrame(animateId);
+		canvas.style.display = 'none';
+		resetBtn.style.display = 'inline';
+		rightSide.style.display = 'none';
+		gameResults()
+	}
+
+	// GAME RESULTS
+	function gameResults() {
+		result.style.display = 'inline'
+
+		if (wonGame === 'true') {
+			result.innerText = 'YOU WON'
+		} else if (archerObj.health <= 0){
+			result.innerText = 'YOU DIED!'
+		} else if (castleHealth <= 0) {
+			result.innerText = 'YOU LET THE CITIZENS DIE!'
+		}
+	}
 
 	// ANIMATE FUNCTION
 	function animate() {
@@ -326,7 +353,6 @@ function theGame() {
 	}
 
 	window.requestAnimationFrame(animate);
-};
+}
 
-startBtn.addEventListener('click', theGame)
-resetBtn.addEventListener('click', theGame);
+startBtn.addEventListener('click', theGame);
