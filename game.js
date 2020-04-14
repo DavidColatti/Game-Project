@@ -17,7 +17,7 @@ function theGame() {
 	gameLevel.style.display = 'none';
 	rightSide.style.display = 'inline';
 	resetBtn.style.display = 'none';
-	result.style.display = 'none'
+	result.style.display = 'none';
 	currentGameLevel = gameLevel.value;
 
 	// CANVAS STRUCTURE
@@ -202,7 +202,7 @@ function theGame() {
 				if (archerObj.health <= 0) {
 					archerObj.health = 0;
 					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
-					wonGame = 'false'
+					wonGame = 'false';
 					gameOver();
 				}
 			}
@@ -212,13 +212,129 @@ function theGame() {
 			goblins.splice(index, 1);
 			castleHealth -= gob.str;
 			document.querySelector('.castleAmount').innerText = `${castleHealth}`;
-			if(castleHealth <= 0) {
-				wonGame = 'false'
+			if (castleHealth <= 0) {
+				wonGame = 'false';
 				gameOver();
 			}
 		}
 	}
 
+	//GOLD GOBLIN
+	let goldGoblinImage = new Image();
+	goldGoblinImage.src = './Sprites/GoldenGoblin.png';
+
+	let goldGoblins = [];
+	setInterval(function() {
+		let goldGoblinObj = {
+			x: -1,
+			y: 420,
+			w: 94,
+			h: 94,
+			health: 400,
+			str: 30,
+			hitTimes: 1,
+			spriteX: 0,
+			spriteY: 704,
+			healthBar: 400
+		};
+
+		if (currentGameLevel === 'Medium') {
+			goldGoblinObj.str = 40;
+			goldGoblinObj.health = 500;
+			goldGoblinObj.healthBar = 500;
+		} else if (currentGameLevel === 'Hard') {
+			goldGoblinObj.str = 50;
+			goldGoblinObj.health = 600;
+			goldGoblinObj.healthBar = 600;
+		}
+
+
+		goldGoblins.push(goldGoblinObj);
+	}, 40000);
+
+	function drawGoldGoblin() {
+		goldGoblins.forEach((goblin, index) => {
+			if (goblin.spriteX >= 512) {
+				goblin.spriteX = 0;
+			}
+
+			ctx.fillStyle = 'red';
+			ctx.fillRect(goblin.x, goblin.y, 90, 5);
+			ctx.fillStyle = 'green';
+			ctx.fillRect(goblin.x, goblin.y, goblin.health / goblin.healthBar * 90, 5);
+
+
+			ctx.drawImage(
+				goldGoblinImage,
+				(goblin.spriteX += 64),
+				goblin.spriteY,
+				64,
+				64,
+				goblin.x+=0.7,
+				goblin.y,
+				goblin.w,
+				goblin.h
+			);
+			detectGoldGoblinCollision(goblin, index); //collision with archer
+			detectArrowGoldGoblinCollision(goblin, index); // collision with arrow
+		});
+	}
+
+	//COLLISION ON GOLD GOBLIN
+	function detectGoldGoblinCollision(gob, index) {
+		//detect collision between gold goblins and archer
+		if (
+			gob.x < archerObj.x + archerObj.w &&
+			gob.x + gob.w - 15 > archerObj.x + 15 &&
+			gob.y < archerObj.y + archerObj.h &&
+			gob.y + gob.h > archerObj.y
+		) {
+			if (gob.hitTimes > 0) {
+				console.log('GOBLIN HURT ME!');
+				archerObj.health -= gob.str;
+				document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+				gob.hitTimes--;
+				if (archerObj.health <= 0) {
+					archerObj.health = 0;
+					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+					wonGame = 'false';
+					gameOver();
+				}
+			}
+		}
+		if (gob.x > canvas.width) {
+			console.log('Goblin Hurt People!');
+			goldGoblins.splice(index, 1);
+			castleHealth -= gob.str;
+			document.querySelector('.castleAmount').innerText = `${castleHealth}`;
+			if (castleHealth <= 0) {
+				wonGame = 'false';
+				gameOver();
+			}
+		}
+	}
+
+	//COLLISION ON ARROW AND GOLD GOBLIN
+	function detectArrowGoldGoblinCollision(goblin, i) {
+		arrows.forEach((arrow, index) => {
+			if (
+				goblin.x < arrow.x + arrow.w &&
+				goblin.x + goblin.w > arrow.x &&
+				goblin.y < arrow.y + arrow.h &&
+				goblin.y + goblin.h > arrow.y
+			) {
+				console.log('arrow hit goblin');
+				goblin.health -= archerObj.str;
+				console.log(goblin.health);
+				arrows.splice(index, 1);
+				if (goblin.health <= 0) {
+					goldGoblins.splice(i, 1);
+					wonGame = 'true';
+					gameOver();
+				}
+			}
+		});
+	}
 
 	// ARROW CREATION
 	let arrows = [];
@@ -324,19 +440,19 @@ function theGame() {
 		canvas.style.display = 'none';
 		resetBtn.style.display = 'inline';
 		rightSide.style.display = 'none';
-		gameResults()
+		gameResults();
 	}
 
 	// GAME RESULTS
 	function gameResults() {
-		result.style.display = 'inline'
+		result.style.display = 'inline';
 
 		if (wonGame === 'true') {
-			result.innerText = 'YOU WON'
-		} else if (archerObj.health <= 0){
-			result.innerText = 'YOU DIED!'
+			result.innerText = 'YOU WON & SAVED THE CITIZENS';
+		} else if (archerObj.health <= 0) {
+			result.innerText = 'YOU DIED!';
 		} else if (castleHealth <= 0) {
-			result.innerText = 'YOU LET THE CITIZENS DIE!'
+			result.innerText = 'YOU LET THE CITIZENS DIE!';
 		}
 	}
 
@@ -350,6 +466,7 @@ function theGame() {
 		drawFallingArrows();
 		drawPotion();
 		drawGoblin();
+		drawGoldGoblin();
 	}
 
 	window.requestAnimationFrame(animate);
