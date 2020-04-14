@@ -5,6 +5,7 @@ const resetBtn = document.querySelector('.resetBtn');
 const gameLevel = document.querySelector('#Levels');
 const rightSide = document.querySelector('.rightSection');
 const result = document.querySelector('.result');
+const logoText = document.querySelector('.logotext');
 canvas.style.display = 'none';
 resetBtn.style.display = 'none';
 rightSide.style.display = 'none';
@@ -248,7 +249,6 @@ function theGame() {
 			goldGoblinObj.healthBar = 600;
 		}
 
-
 		goldGoblins.push(goldGoblinObj);
 	}, 40000);
 
@@ -263,14 +263,13 @@ function theGame() {
 			ctx.fillStyle = 'green';
 			ctx.fillRect(goblin.x, goblin.y, goblin.health / goblin.healthBar * 90, 5);
 
-
 			ctx.drawImage(
 				goldGoblinImage,
 				(goblin.spriteX += 64),
 				goblin.spriteY,
 				64,
 				64,
-				goblin.x+=0.7,
+				(goblin.x += 0.7),
 				goblin.y,
 				goblin.w,
 				goblin.h
@@ -365,15 +364,15 @@ function theGame() {
 
 	// EXTRA ARROW FALLING
 	let arrowImage = new Image();
-	arrowImage.src = './Sprites/Arrow.png';
+	arrowImage.src = './Sprites/ArrowBag.png';
 
 	let fallingArrows = [];
 	setInterval(function() {
 		let arrowObj = {
 			x: Math.random() * 700,
 			y: -1,
-			w: 25,
-			h: 18,
+			w: 30,
+			h: 30,
 			amount: 15
 		};
 
@@ -445,6 +444,8 @@ function theGame() {
 
 	// GAME RESULTS
 	function gameResults() {
+		document.querySelector('.navBar').style.display = 'none';
+		logoText.style.display = 'none'
 		result.style.display = 'inline';
 
 		if (wonGame === 'true') {
