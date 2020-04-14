@@ -463,12 +463,18 @@ function theGame() {
 			spriteY: 704,
 			healthBar: 50,
 			spellCount: 1,
-			alive: true
+			alive: true,
+			get shoot() {
+				let goblin = this
+				setInterval(function() {
+					if(goblin.health > 0) {
+					spellShoot(goblin);
+					}
+				}, 1800);
+			}
 		};
 
-		setInterval(function() {
-			spellShoot(magicGoblinObj);
-		}, 1800);
+		magicGoblinObj.shoot
 
 		if (currentGameLevel === 'Medium') {
 			magicGoblinObj.str = 20;
@@ -560,7 +566,8 @@ function theGame() {
 				x: goblin.x + goblin.w - 20,
 				y: goblin.y + (goblin.h / 2 + 10),
 				w: 20,
-				h: 20
+				h: 20,
+				str: goblin.str
 			};
 			spells.push(spell);
 		}
@@ -586,7 +593,7 @@ function theGame() {
 
 	// //COLLISION ON SPELL AND ARCHER
 	function detectSpellArcherCollision(archer) {
-		magicGoblins.forEach((goblin) => {
+		// magicGoblins.forEach((goblin) => {
 			spells.forEach((spell, index) => {
 				if (
 					archer.x < spell.x + spell.w &&
@@ -596,7 +603,8 @@ function theGame() {
 				) {
 					console.log('Spell Hit Me!');
 					console.log(spells.length);
-					archer.health -= goblin.str;
+					// archer.health -= goblin.str;
+					archer.health -= spell.str;
 					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 					spells.splice(index, 1);
 					if (archer.health <= 0) {
@@ -604,7 +612,7 @@ function theGame() {
 					}
 				}
 			});
-		});
+		// });
 	}
 
 	// GAME OVER FUNCTION
