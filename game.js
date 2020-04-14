@@ -113,6 +113,8 @@ function theGame() {
 			archerObj.w,
 			archerObj.h
 		);
+
+		// detectSpellArcherCollision(archerObj);
 	}
 
 	// MOVEMENT KEYS
@@ -324,7 +326,6 @@ function theGame() {
 			) {
 				console.log('arrow hit goblin');
 				goblin.health -= archerObj.str;
-				console.log(goblin.health);
 				arrows.splice(index, 1);
 				if (goblin.health <= 0) {
 					goldGoblins.splice(i, 1);
@@ -422,8 +423,6 @@ function theGame() {
 			) {
 				console.log('arrow hit goblin');
 				goblin.health -= archerObj.str;
-				console.log(goblin.health);
-				console.log();
 				arrows.splice(index, 1);
 				if (goblin.health <= 0) {
 					goblins.splice(i, 1);
@@ -516,7 +515,6 @@ function theGame() {
 			) {
 				console.log('arrow hit goblin');
 				goblin.health -= archerObj.str;
-				console.log(goblin.health);
 				arrows.splice(index, 1);
 				if (goblin.health <= 0) {
 					magicGoblins.splice(i, 1);
@@ -528,7 +526,6 @@ function theGame() {
 	// SPELL CREATION
 	let spells = [];
 	function spellShoot(goblin) {
-		console.log(goblin);
 		let spell = {
 			x: goblin.x + goblin.w - 20,
 			y: goblin.y + (goblin.h / 2 + 10),
@@ -538,20 +535,21 @@ function theGame() {
 		spells.push(spell);
 	}
 
-
 	setInterval(function() {
-		if(magicGoblins.length !== 0) {
-			magicGoblins.forEach(goblin => {
-				spellShoot(goblin)
-			})
+		if (magicGoblins.length !== 0) {
+			magicGoblins.forEach((goblin) => {
+				spellShoot(goblin);
+			});
 		}
-	}, 2500)
+	}, 2500);
 
+	let spellImage = new Image();
+	spellImage.src = './Sprites/Spell.png';
 
 	function drawSpells() {
 		ctx.fillStyle = 'red';
 		spells.forEach((spell) => {
-			ctx.fillRect((spell.x += 3), spell.y, 10, 10);
+			ctx.drawImage(spellImage, (spell.x += 3), spell.y, 20, 20);
 		});
 	}
 
