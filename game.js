@@ -10,7 +10,7 @@ const logoText = document.querySelector('.logotext');
 let gameMusic = new Audio()
 gameMusic.src = './gameMusic.mp3'
 gameMusic.volume = 0.5
-window.onload = gameMusic.play()
+// window.onload = gameMusic.play()
 
 let arrowSound = new Audio()
 arrowSound.src = './arrowSound2.mp3'
@@ -141,21 +141,48 @@ function theGame() {
 	// MOVEMENT KEYS
 	document.onkeydown = function(e) {
 		if (e.key === 'ArrowUp' && archerObj.y > 360) {
-			archerObj.y -= 15;
-		}
-		if (e.key === 'ArrowLeft' && archerObj.x > 0) {
-			archerObj.x -= 15;
-		}
-		if (e.key === 'ArrowDown' && archerObj.y < 520) {
-			archerObj.y += 15;
-		}
-		if (e.key === 'ArrowRight' && archerObj.x < 700) {
-			archerObj.x += 15;
+			moveArcher(e.key)
+		} else if (e.key === 'ArrowLeft' && archerObj.x > 0) {
+			moveArcher(e.key)
+		} else if (e.key === 'ArrowDown' && archerObj.y < 520) {
+			moveArcher(e.key)
+		} else if (e.key === 'ArrowRight' && archerObj.x < 700) {
+			moveArcher(e.key)
 		}
 		if (e.key === ' ') {
 			shoot();
 		}
 	};
+
+	function moveArcher(e) {
+		if(e === 'ArrowUp'){
+			archerObj.y -= 15;
+			archerObj.spriteY = 512
+		} else if (e === 'ArrowLeft') {
+			archerObj.x -= 15;
+			archerObj.spriteY = 576
+		} else if (e === 'ArrowRight') {
+			archerObj.x += 15;
+			archerObj.spriteY = 704
+		}else if (e === 'ArrowDown') {
+			archerObj.y += 15;
+			archerObj.spriteY = 640
+		}
+
+		if(archerObj.spriteX >= 512) {
+			archerObj.spriteX = 0
+		}
+		archerObj.spriteX+=64;
+	}
+
+	document.onkeyup = function(e) {
+		if(e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+			archerObj.spriteX = 0;
+			archerObj.spriteY = 576;
+		}
+	}
+
+	
 
 	//GOBLIN
 	let goblinImage = new Image();
