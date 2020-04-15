@@ -8,16 +8,16 @@ const result = document.querySelector('.result');
 const logoText = document.querySelector('.logotext');
 //AUDIO
 let gameMusic = new Audio()
-gameMusic.src = './gameMusic.mp3'
+gameMusic.src = './MP3/gameMusic.mp3'
 gameMusic.volume = 0.5
 // window.onload = gameMusic.play()
 
 let arrowSound = new Audio()
-arrowSound.src = './arrowSound2.mp3'
+arrowSound.src = './MP3/arrowSound.mp3'
 arrowSound.volume = 0.5
 
 let orcDeathSound = new Audio()
-orcDeathSound.src = './orcDeath.mp3'
+orcDeathSound.src = './MP3/orcDeath.mp3'
 orcDeathSound.volume = 0.2
 
 canvas.style.display = 'none';
@@ -646,13 +646,6 @@ function theGame() {
 		}
 	}
 
-	// setInterval(function() {
-	// 	if (magicGoblins.length !== 0) {
-	// 		magicGoblins.forEach((goblin) => {
-	// 			spellShoot(goblin);
-	// 		});
-	// 	}
-	// }, 1800);
 
 	let spellImage = new Image();
 	spellImage.src = './Sprites/Spell.png';
