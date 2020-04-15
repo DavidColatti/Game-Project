@@ -1,3 +1,7 @@
+* {
+    font-family: 'Girassol', cursive;
+}
+
 body {
     margin: 0;
     display: flex;
