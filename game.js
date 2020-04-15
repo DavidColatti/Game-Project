@@ -182,17 +182,43 @@ function theGame() {
 			ctx.fillStyle = 'green';
 			ctx.fillRect(goblin.x, goblin.y, goblin.health / 50 * 50, 5);
 
-			ctx.drawImage(
-				goblinImage,
-				(goblin.spriteX += 64),
-				goblin.spriteY,
-				64,
-				64,
-				(goblin.x += 2),
-				goblin.y,
-				goblin.w,
-				goblin.h
-			);
+			if (currentGameLevel === 'Medium') {
+				ctx.drawImage(
+					goblinImage,
+					(goblin.spriteX += 64),
+					goblin.spriteY,
+					64,
+					64,
+					(goblin.x += 2.5),
+					goblin.y,
+					goblin.w,
+					goblin.h
+				);
+			} else if (currentGameLevel === 'Hard'){
+				ctx.drawImage(
+					goblinImage,
+					(goblin.spriteX += 64),
+					goblin.spriteY,
+					64,
+					64,
+					(goblin.x += 3),
+					goblin.y,
+					goblin.w,
+					goblin.h
+				);
+			} else {
+				ctx.drawImage(
+					goblinImage,
+					(goblin.spriteX += 64),
+					goblin.spriteY,
+					64,
+					64,
+					(goblin.x += 2),
+					goblin.y,
+					goblin.w,
+					goblin.h
+				);
+			}
 			detectGoblinCollision(goblin, index); //collision with archer
 			detectArrowGoblinCollision(goblin, index); // collision with arrow
 		});
@@ -465,16 +491,16 @@ function theGame() {
 			spellCount: 1,
 			alive: true,
 			get shoot() {
-				let goblin = this
+				let goblin = this;
 				setInterval(function() {
-					if(goblin.health > 0) {
-					spellShoot(goblin);
+					if (goblin.health > 0) {
+						spellShoot(goblin);
 					}
 				}, 1800);
 			}
 		};
 
-		magicGoblinObj.shoot
+		magicGoblinObj.shoot;
 
 		if (currentGameLevel === 'Medium') {
 			magicGoblinObj.str = 20;
@@ -483,8 +509,8 @@ function theGame() {
 			magicGoblinObj.spellCount = 2;
 		} else if (currentGameLevel === 'Hard') {
 			magicGoblinObj.str = 25;
-			magicGoblinObj.health = 100;
-			magicGoblinObj.healthBar = 100;
+			magicGoblinObj.health = 75;
+			magicGoblinObj.healthBar = 75;
 			magicGoblinObj.spellCount = 3;
 		}
 
@@ -594,24 +620,24 @@ function theGame() {
 	// //COLLISION ON SPELL AND ARCHER
 	function detectSpellArcherCollision(archer) {
 		// magicGoblins.forEach((goblin) => {
-			spells.forEach((spell, index) => {
-				if (
-					archer.x < spell.x + spell.w &&
-					archer.x + archer.w > spell.x &&
-					archer.y < spell.y + spell.h &&
-					archer.y + archer.h > spell.y
-				) {
-					console.log('Spell Hit Me!');
-					console.log(spells.length);
-					// archer.health -= goblin.str;
-					archer.health -= spell.str;
-					document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
-					spells.splice(index, 1);
-					if (archer.health <= 0) {
-						gameOver();
-					}
+		spells.forEach((spell, index) => {
+			if (
+				archer.x < spell.x + spell.w &&
+				archer.x + archer.w > spell.x &&
+				archer.y < spell.y + spell.h &&
+				archer.y + archer.h > spell.y
+			) {
+				console.log('Spell Hit Me!');
+				console.log(spells.length);
+				// archer.health -= goblin.str;
+				archer.health -= spell.str;
+				document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
+				spells.splice(index, 1);
+				if (archer.health <= 0) {
+					gameOver();
 				}
-			});
+			}
+		});
 		// });
 	}
 
