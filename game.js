@@ -6,6 +6,20 @@ const gameLevel = document.querySelector('#Levels');
 const rightSide = document.querySelector('.rightSection');
 const result = document.querySelector('.result');
 const logoText = document.querySelector('.logotext');
+//AUDIO
+let gameMusic = new Audio()
+gameMusic.src = './gameMusic.mp3'
+gameMusic.volume = 0.5
+window.onload = gameMusic.play()
+
+let arrowSound = new Audio()
+arrowSound.src = './arrowSound2.mp3'
+arrowSound.volume = 0.5
+
+let orcDeathSound = new Audio()
+orcDeathSound.src = './orcDeath.mp3'
+orcDeathSound.volume = 0.2
+
 canvas.style.display = 'none';
 resetBtn.style.display = 'none';
 rightSide.style.display = 'none';
@@ -13,6 +27,7 @@ let wonGame;
 let currentGameLevel;
 
 function theGame() {
+	gameMusic.volume = 0.1
 	canvas.style.display = 'inline';
 	startBtn.style.display = 'none';
 	gameLevel.style.display = 'none';
@@ -29,6 +44,7 @@ function theGame() {
 	canvas.style.backgroundSize = 'contain';
 	let animateId;
 	let castleHealth = 200;
+	
 
 	// POTION (HEALING)
 	let potionImage = new Image();
@@ -369,6 +385,7 @@ function theGame() {
 				goblin.health -= archerObj.str;
 				arrows.splice(index, 1);
 				if (goblin.health <= 0) {
+					orcDeathSound.play()
 					goldGoblins.splice(i, 1);
 					wonGame = 'true';
 					gameOver();
@@ -384,6 +401,7 @@ function theGame() {
 			console.log('out of arrows');
 			return;
 		} else {
+			arrowSound.play();
 			archerObj.arrowAmount--;
 			document.querySelector('.arrowsAmount').innerText = `${archerObj.arrowAmount}`;
 
@@ -466,6 +484,7 @@ function theGame() {
 				goblin.health -= archerObj.str;
 				arrows.splice(index, 1);
 				if (goblin.health <= 0) {
+					orcDeathSound.play()
 					goblins.splice(i, 1);
 				}
 			}
@@ -576,6 +595,7 @@ function theGame() {
 				goblin.health -= archerObj.str;
 				arrows.splice(index, 1);
 				if (goblin.health <= 0) {
+					orcDeathSound.play()
 					magicGoblins.splice(i, 1);
 				}
 			}
@@ -643,6 +663,7 @@ function theGame() {
 
 	// GAME OVER FUNCTION
 	function gameOver() {
+		gameMusic.volume = 0.5
 		console.log('GAME IS OVER');
 		window.cancelAnimationFrame(animateId);
 		canvas.style.display = 'none';
