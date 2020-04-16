@@ -1,13 +1,12 @@
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
-const score = document.querySelector('.score')
-const backBtn = document.querySelector('.backbutton')
+const score = document.querySelector('.score');
+const backBtn = document.querySelector('.backbutton');
 let wonGame;
-let mute = false;
 
 //LOCAL STORAGE
-let currentGameLevel = localStorage.getItem('currentGameLevel')
-
+let currentGameLevel = localStorage.getItem('currentGameLevel');
+let mute = localStorage.getItem('mute');
 
 // CANVAS STRUCTURE
 canvas.width = 800;
@@ -22,7 +21,7 @@ let castleHealth = 200;
 let gameMusic = new Audio();
 gameMusic.src = './MP3/gameMusic.mp3';
 gameMusic.volume = 0.5;
-// document.onload = gameMusic.play()
+document.onload = gameMusic.play();
 
 let arrowSound = new Audio();
 arrowSound.src = './MP3/arrowSound.mp3';
@@ -31,6 +30,12 @@ arrowSound.volume = 0.5;
 let orcDeathSound = new Audio();
 orcDeathSound.src = './MP3/orcDeath.mp3';
 orcDeathSound.volume = 0.2;
+
+if (mute === true) {
+	gameMusic.src = '';
+	arrowSound.src = '';
+	orcDeathSound.src = ''
+}
 
 // POTION (HEALING)
 let potionImage = new Image();
@@ -658,7 +663,7 @@ function detectSpellArcherCollision(archer) {
 
 // GAME OVER FUNCTION
 function gameOver() {
-	backBtn.innerText = 'Play Again!'
+	backBtn.innerText = 'Play Again!';
 	score.style.visibility = 'hidden';
 	window.cancelAnimationFrame(animateId);
 	ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears Everything
@@ -668,7 +673,7 @@ function gameOver() {
 
 // GAME RESULTS
 function gameResults() {
-	canvas.style.transition = '2s'
+	canvas.style.transition = '2s';
 	if (wonGame === 'true') {
 		canvas.style.backgroundImage = 'url(./Img/VictoryBackground.png)';
 	} else {
