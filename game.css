@@ -1,0 +1,78 @@
+* {
+    font-family: 'Girassol', cursive;
+}
+
+html {
+    margin: 0;
+    height: 100%;
+    overflow: hidden
+}
+
+body {
+    margin: 0;
+    display: flex;
+    background-image: url(/Img/BG.jpg);
+    align-items: center;
+    letter-spacing: 2px;
+    justify-content: center;
+    height: 100vh
+}
+
+#canvas {
+    border: 3px solid rgb(103, 15, 15);
+    border-radius: 2rem;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.356);
+}
+
+.leftSection {
+    margin-right: 100px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.leftSide {
+    border: 3px solid rgba(103, 15, 15, 0.509);
+    border-radius: 2rem;
+    background-color: rgba(255, 255, 255, 0.192);
+}
+
+.score {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.score h2, h3{
+    margin-bottom: 5px;
+    font-size: 25px;
+    color:white;
+    text-shadow: 2px 2px black;
+}
+
+button {
+    border: 3px solid rgba(103, 15, 15, 0.509);
+    background-color: rgba(255, 255, 255, 0.192);
+    border-radius: 0.5rem;
+    color: white;
+    width: 200px;
+    height: 70px;
+    font-size: 20px;
+    text-shadow: 2px 2px black;
+}
+
+button:hover {
+    font-size: 30px;
+    color: rgba(103, 15, 15, 0.509);
+}
+
+button:focus {
+    outline:0;
+}
+
+.backbutton {
+    align-self: flex-start;
+    justify-self: flex-start;
+}

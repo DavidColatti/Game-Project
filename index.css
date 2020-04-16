@@ -1,0 +1,68 @@
+* {
+    font-family: 'Girassol', cursive;
+}
+
+html {
+    margin: 0;
+    height: 100%;
+    overflow: hidden
+}
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: space-evenly;
+    background-image: url(/Img/BG.jpg);
+    align-items: center;
+    letter-spacing: 2px;
+}
+
+.logotext {
+    width: 100%
+}
+
+.midSection {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-around;
+}
+
+.menu button, select{
+    border: 3px solid rgba(103, 15, 15, 0.509);
+    background-color: rgba(255, 255, 255, 0.192);
+    border-radius: 0.5rem;
+    color: white;
+    width: 200px;
+    height: 70px;
+    font-size: 20px;
+    text-shadow: 2px 2px black;
+    margin: 100px 30px
+}
+
+button:focus {
+    outline:0;
+}
+
+select {
+    text-align-last: center;
+}
+
+select:focus {
+    outline:0;
+}
+
+button:hover {
+    font-size: 30px;
+    color: rgba(103, 15, 15, 0.509);
+}
+
+select:hover {
+    font-size: 30px;
+    color: rgba(103, 15, 15, 0.509);
+}

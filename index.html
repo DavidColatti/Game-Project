@@ -4,56 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Girassol&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/index.css">
     <title>Raid Defender</title>
 </head>
 <body>
-<div class='navBar'>
-    <span class='instructions'>
-        <h1>Instructions</h1>
-        <p>There is a raid of Orcs heading<br>
-        into the Castle and the King<br>
-        requested you to defend<br>
-            the citizens!</p>
-        <p>Don't let the Orcs hit you,<br>
-        they hurt! Shoot them down<br> before
-        they get past you and into<br> the castle. Make sure<br>
-        to finish off the Orc General, he<br>
-        wears gold armor!</p>
-        <p>Press the space bar to shoot<br>
-        your arrows and navigate with<br>
-        the arrow keys.</p>
-        <p>Collect falling arrows and<br>potions
-        if you're running low!</p>
-    </span>
-</div>
 <div class='midSection'>
     <img src="/Img/LogoText.png" alt="Raid Defender" class='logotext'>
-    <canvas id='canvas'></canvas>
-    <div class='result'></div>
     <div class='menu'>
+        <button class='instructionsBtn' onclick="window.location.href = '/instructions.html'">Instructions</button>
         <select id="Levels">
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
         </select>
-        <button class='startBtn'>Start Game!</button>
-        <button class='resetBtn' onclick="window.location.href = 'index.html'">Return Home</button>
-    </div>
-</div>
-<div class='rightSection'>
-    <div class='score'>
-        <span class='rightSide'>
-            <h2 class='castle'>Castle Population</h2>
-            <h3 class='castleAmount'>200</h3>
-            <h2 class='health'>Health</h2>
-            <h3 class='healthAmount'>100</h3>
-            <h2 class='arrows'>Arrows</h2>
-            <h3 class='arrowsAmount'>50</h3>
-        </span>
-        <img src="/Img/Keys.png" alt="Keys">
+        <button class='startBtn' onclick="window.location.href = '/game.html'">Play Now!</button>
     </div>
 </div>
 </body>
-<script src="/game.js"></script>
+<script>
+   let currentGameLevel = document.querySelector('#Levels').value
+   localStorage.setItem('currentGameLevel', currentGameLevel)
+   document.querySelector('#Levels').addEventListener('change', function(event) {
+        localStorage.setItem('currentGameLevel', event.target.value)
+    })
+</script>
 </html>

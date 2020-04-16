@@ -1,0 +1,77 @@
+* {
+    font-family: 'Girassol', cursive;
+}
+
+html {
+    margin: 0;
+    height: 100%;
+    overflow: hidden
+}
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    background-image: url(/Img/BG.jpg);
+    align-items: center;
+    letter-spacing: 2px;
+    height: 100vh
+}
+
+.outerInstructions {
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    border: 3px solid rgba(103, 15, 15, 0.509);
+    border-radius: 2rem;
+    background-color: rgba(255, 255, 255, 0.192);
+}
+
+h1 {
+    color:  white; 
+    text-shadow: 2px 2px black;
+}
+
+.instructions p{
+    color:  white;
+    font-size: 20px;
+    text-shadow: 2px 2px black;
+    margin: 50px;
+}
+
+.rightside {
+    height:100vh;
+    display: flex
+}
+
+.orcPhoto {
+    align-self: flex-end;
+}
+
+.leftside {
+    height: 100vh;
+}
+
+button {
+    border: 3px solid rgba(103, 15, 15, 0.509);
+    background-color: rgba(255, 255, 255, 0.192);
+    border-radius: 0.5rem;
+    color: white;
+    width: 200px;
+    height: 70px;
+    font-size: 20px;
+    text-shadow: 2px 2px black;
+    margin-top: 20px;
+    margin-right: 200px
+}
+
+button:focus {
+    outline:0;
+}
+
+button:hover {
+    font-size: 30px;
+    color: rgba(103, 15, 15, 0.509);
+}
