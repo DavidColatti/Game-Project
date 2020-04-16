@@ -117,7 +117,8 @@ let archerObj = {
 	arrowAmount: 50,
 	spriteX: 0,
 	spriteY: 640,
-	alive: true
+	alive: true,
+	shoot: false
 };
 
 if (archerObj.health <= 0) {
@@ -129,6 +130,13 @@ function drawArcher() {
 	ctx.fillRect(archerObj.x + 5, archerObj.y, 50, 5);
 	ctx.fillStyle = 'green';
 	ctx.fillRect(archerObj.x + 5, archerObj.y, archerObj.health / 100 * 50, 5);
+
+	if(archerObj.shoot === true && archerObj.spriteX < 768 && archerObj.arrowAmount > 0) {
+		console.log(archerObj.shoot)
+		archerObj.spriteX += 64
+	} else if (archerObj.shoot === true && archerObj.spriteX < 768) {
+		archerObj.shoot = false
+	}
 
 	ctx.drawImage(
 		archerImage,
@@ -158,6 +166,7 @@ document.onkeydown = function(e) {
 	}
 	if (e.key === ' ') {
 		shoot();
+		moveArcher(e.key)
 	}
 };
 
@@ -165,15 +174,22 @@ function moveArcher(e) {
 	if (e === 'ArrowUp') {
 		archerObj.y -= 15;
 		archerObj.spriteY = 512;
+		archerObj.shoot = false
 	} else if (e === 'ArrowLeft') {
 		archerObj.x -= 15;
 		archerObj.spriteY = 576;
+		archerObj.shoot = false
 	} else if (e === 'ArrowRight') {
 		archerObj.x += 15;
 		archerObj.spriteY = 704;
+		archerObj.shoot = false
 	} else if (e === 'ArrowDown') {
 		archerObj.y += 15;
 		archerObj.spriteY = 640;
+		archerObj.shoot = false
+	} else if (e === ' ') {
+		archerObj.spriteX = 0;
+		archerObj.spriteY = 1088;
 	}
 
 	if (archerObj.spriteX >= 512) {
@@ -221,47 +237,71 @@ setInterval(function() {
 
 function drawGoblin() {
 	goblins.forEach((goblin, index) => {
-		if (goblin.spriteX >= 512) {
+		if (goblin.spriteX >= 512 && goblin.health > 0) {
 			goblin.spriteX = 0;
 		}
 
 		ctx.fillStyle = 'red';
 		ctx.fillRect(goblin.x, goblin.y, 50, 5);
 		ctx.fillStyle = 'green';
+		if(goblin.health <= 0) {
+			goblin.health = 0;
+		}
 		ctx.fillRect(goblin.x, goblin.y, goblin.health / 50 * 50, 5);
 
 		if (currentGameLevel === 'Medium') {
+			if(goblin.health > 0) {
+				goblin.x += 2.5;
+				goblin.spriteX += 64;
+			}
+			if(goblin.health <= 0 && goblin.spriteX != 320) {
+				goblin.spriteX += 64;
+			}
 			ctx.drawImage(
 				goblinImage,
-				(goblin.spriteX += 64),
+				goblin.spriteX,
 				goblin.spriteY,
 				64,
 				64,
-				(goblin.x += 2.5),
+				goblin.x,
 				goblin.y,
 				goblin.w,
 				goblin.h
 			);
 		} else if (currentGameLevel === 'Hard') {
+			if(goblin.health > 0) {
+				goblin.x += 2.5;
+				goblin.spriteX += 64;
+			}
+			if(goblin.health <= 0 && goblin.spriteX != 320) {
+				goblin.spriteX += 64;
+			}
 			ctx.drawImage(
 				goblinImage,
-				(goblin.spriteX += 64),
+				goblin.spriteX,
 				goblin.spriteY,
 				64,
 				64,
-				(goblin.x += 3),
+				goblin.x,
 				goblin.y,
 				goblin.w,
 				goblin.h
 			);
 		} else {
+			if(goblin.health > 0) {
+				goblin.x += 2.5;
+				goblin.spriteX += 64;
+			}
+			if(goblin.health <= 0 && goblin.spriteX != 320) {
+				goblin.spriteX += 64;
+			}
 			ctx.drawImage(
 				goblinImage,
-				(goblin.spriteX += 64),
+				goblin.spriteX,
 				goblin.spriteY,
 				64,
 				64,
-				(goblin.x += 2),
+				goblin.x,
 				goblin.y,
 				goblin.w,
 				goblin.h
@@ -427,6 +467,7 @@ function detectArrowGoldGoblinCollision(goblin, i) {
 // ARROW CREATION
 let arrows = [];
 function shoot() {
+	archerObj.shoot = true;
 	if (archerObj.arrowAmount === 0) {
 		console.log('out of arrows');
 		return;
@@ -515,7 +556,11 @@ function detectArrowGoblinCollision(goblin, i) {
 			arrows.splice(index, 1);
 			if (goblin.health <= 0) {
 				orcDeathSound.play();
-				goblins.splice(i, 1);
+				goblin.spriteX= 0
+				goblin.spriteY= 1280
+				setTimeout(function (){
+					goblins.splice(i, 1);
+				}, 200)
 			}
 		}
 	});
