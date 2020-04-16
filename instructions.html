@@ -34,4 +34,17 @@
         <img src="/Img/OrcPhoto.png" alt="Orc" class='orcPhoto'>
     </div>
 </body>
+<script>
+    let mute = localStorage.getItem('mute');
+
+    let instructionSong = new Audio();
+    instructionSong.loop = true;
+    if(mute === true) {
+        instructionSong.src = '';
+    } else {
+    instructionSong.src = './MP3/instructionSong.mp3';
+    }
+    window.onload = instructionSong.play()
+    
+</script>
 </html>

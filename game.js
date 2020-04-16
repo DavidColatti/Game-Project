@@ -31,10 +31,26 @@ let orcDeathSound = new Audio();
 orcDeathSound.src = './MP3/orcDeath.mp3';
 orcDeathSound.volume = 0.2;
 
+let orcLaugh = new Audio();
+orcLaugh.src = './MP3/orcLaugh.mp3';
+orcLaugh.loop = true;
+orcLaugh.volume = 0.5;
+
+let victorySound = new Audio();
+victorySound.src = './MP3/victorySound.mp3';
+victorySound.loop = true;
+victorySound.volume = 0.5;
+
+let gotHitSound = new Audio();
+gotHitSound.src = './MP3/gotHit.mp3';
+
 if (mute === true) {
 	gameMusic.src = '';
 	arrowSound.src = '';
-	orcDeathSound.src = ''
+	orcDeathSound.src = '';
+	orcLaugh.src = '';
+	victorySound.src = '';
+	gotHitSound.src = '';
 }
 
 // POTION (HEALING)
@@ -267,6 +283,7 @@ function detectGoblinCollision(gob, index) {
 	) {
 		if (gob.hitTimes > 0) {
 			console.log('GOBLIN HURT ME!');
+			gotHitSound.play()
 			archerObj.health -= gob.str;
 			document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 			gob.hitTimes--;
@@ -363,6 +380,7 @@ function detectGoldGoblinCollision(gob, index) {
 	) {
 		if (gob.hitTimes > 0) {
 			console.log('GOBLIN HURT ME!');
+			gotHitSound.play()
 			archerObj.health -= gob.str;
 			document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 			gob.hitTimes--;
@@ -650,7 +668,7 @@ function detectSpellArcherCollision(archer) {
 			archer.y + archer.h > spell.y
 		) {
 			console.log('Spell Hit Me!');
-			console.log(spells.length);
+			gotHitSound.play()
 			archer.health -= spell.str;
 			document.querySelector('.healthAmount').innerText = `${archerObj.health}`;
 			spells.splice(index, 1);
@@ -675,8 +693,10 @@ function gameOver() {
 function gameResults() {
 	canvas.style.transition = '2s';
 	if (wonGame === 'true') {
+		victorySound.play()
 		canvas.style.backgroundImage = 'url(./Img/VictoryBackground.png)';
 	} else {
+		orcLaugh.play()
 		canvas.style.backgroundImage = 'url(./Img/DefeatBackground.png)';
 	}
 }

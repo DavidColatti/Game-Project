@@ -39,12 +39,14 @@
     let introSong = new Audio();
     introSong.src = './MP3/IntroSong.mp3'
     window.onload = introSong.play()
+
     muteBtn.addEventListener('click', function() {
         mute = !mute;
+        
         localStorage.setItem('mute', mute)
         if (mute) {
-        muteBtn.src = '/Img/MuteOn.png'
-        introSong.pause()
+            muteBtn.src = '/Img/MuteOn.png'
+            introSong.pause()
         } else {
             muteBtn.src = '/Img/MuteOff.png' 
             introSong.play()
