@@ -44,7 +44,7 @@ victorySound.volume = 0.5;
 let gotHitSound = new Audio();
 gotHitSound.src = './MP3/gotHit.mp3';
 
-if (mute === true) {
+if (mute == 'true') {
 	gameMusic.src = '';
 	arrowSound.src = '';
 	orcDeathSound.src = '';

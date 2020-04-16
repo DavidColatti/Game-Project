@@ -9,12 +9,12 @@
 </head>
 <body>
 <span>
-    <img src="/Img/MuteOff.png" alt="Mute On" class='muteBtn'>
+    <img src="/Img/MuteOn.png" alt="Mute On" class='muteBtn'>
 </span>
 <div class='midSection'>
     <img src="/Img/LogoText.png" alt="Raid Defender" class='logotext'>
     <div class='menu'>
-        <button class='instructionsBtn' onclick="window.location.href = '/instructions.html'">Instructions</button>
+        <button class='instructionsBtn' onclick="window.location.href = '/instructions.html?sound=true'">Instructions</button>
         <select id="Levels">
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
@@ -32,24 +32,24 @@
         })
 
     // MUTE BUTTON
-    let mute = false;
+    let mute = true;
     localStorage.setItem('mute', mute)
     const muteBtn = document.querySelector('.muteBtn')
     // Intro Song
     let introSong = new Audio();
     introSong.src = './MP3/IntroSong.mp3'
-    window.onload = introSong.play()
+    // window.onload = introSong.play()
 
     muteBtn.addEventListener('click', function() {
         mute = !mute;
-        
+        console.log(mute)
         localStorage.setItem('mute', mute)
-        if (mute) {
-            muteBtn.src = '/Img/MuteOn.png'
-            introSong.pause()
-        } else {
+        if (!mute) {
             muteBtn.src = '/Img/MuteOff.png' 
             introSong.play()
+        } else {
+            muteBtn.src = '/Img/MuteOn.png'
+            introSong.pause()
         }
     })
 
