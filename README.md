@@ -2,6 +2,7 @@
 A 2d style game with multiple collision detectors to challenge the player in accomplishing their objective and saving the citizens from a raid of Orcs!
 <br>
 [Play Here!](https://raid-defender.netlify.app/ "Play Here")
+<br>
 ![demo](demo.gif)
 
 ## Built With
